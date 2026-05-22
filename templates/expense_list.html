@@ -2,38 +2,585 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
-    <h2>My Expenses</h2>
-    <a href="/expenses/add/" class="btn btn-primary">+ Add Expense</a>
-</div>
+<style>
 
-<table class="table table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for expense in expenses %}
-        <tr>
-            <td>{{ expense.title }}</td>
-            <td>₹ {{ expense.amount }}</td>
-            <td>{{ expense.category }}</td>
-            <td>{{ expense.created_at|date:"d M Y" }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4" class="text-center">No expenses yet</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    body{
+        background:#f7d9c7;
+    }
 
-<div class="alert alert-success">
-    <strong>Total:</strong> ₹ {{ total }}
+    .dashboard-wrapper{
+
+        padding:20px;
+    }
+
+    /* HEADER */
+
+    .top-section{
+
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+
+        margin-bottom:35px;
+
+        flex-wrap:wrap;
+
+        gap:20px;
+    }
+
+    .page-title{
+
+        font-size:42px;
+
+        font-weight:700;
+
+        color:#2d2d2d;
+    }
+
+    .page-subtitle{
+
+        color:#666;
+
+        margin-top:5px;
+
+        font-size:16px;
+    }
+
+    /* BUTTON GROUP */
+
+    .top-buttons{
+
+        display:flex;
+
+        gap:15px;
+
+        flex-wrap:wrap;
+    }
+
+    .add-btn{
+
+        border:none;
+
+        padding:14px 28px;
+
+        border-radius:14px;
+
+        background:linear-gradient(135deg,#ff7b42,#ff5a1f);
+
+        color:white;
+
+        font-size:16px;
+
+        font-weight:600;
+
+        text-decoration:none;
+
+        transition:0.3s;
+
+        box-shadow:
+        0 10px 20px rgba(255,90,31,0.25);
+    }
+
+    .add-btn:hover{
+
+        transform:translateY(-2px);
+
+        color:white;
+
+        box-shadow:
+        0 15px 25px rgba(255,90,31,0.35);
+    }
+
+    .budget-btn{
+
+        border:none;
+
+        padding:14px 28px;
+
+        border-radius:14px;
+
+        background:linear-gradient(135deg,#0d6efd,#0b5ed7);
+
+        color:white;
+
+        font-size:16px;
+
+        font-weight:600;
+
+        text-decoration:none;
+
+        transition:0.3s;
+
+        box-shadow:
+        0 10px 20px rgba(13,110,253,0.25);
+    }
+
+    .budget-btn:hover{
+
+        transform:translateY(-2px);
+
+        color:white;
+
+        box-shadow:
+        0 15px 25px rgba(13,110,253,0.35);
+    }
+
+    /* STATS SECTION */
+
+    .stats-grid{
+
+        display:grid;
+
+        grid-template-columns:
+        repeat(auto-fit,minmax(280px,1fr));
+
+        gap:25px;
+
+        margin-bottom:35px;
+    }
+
+    .stats-card{
+
+        background:rgba(255,255,255,0.35);
+
+        backdrop-filter:blur(15px);
+
+        border-radius:25px;
+
+        padding:30px;
+
+        box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .stats-title{
+
+        font-size:18px;
+
+        color:#666;
+
+        margin-bottom:10px;
+    }
+
+    .stats-value{
+
+        font-size:42px;
+
+        font-weight:700;
+
+        color:#ff5a1f;
+    }
+
+    .budget-value{
+
+        color:#0d6efd;
+    }
+
+    .remaining-value{
+
+        color:#198754;
+    }
+
+    /* TABLE CARD */
+
+    .table-card{
+
+        background:rgba(255,255,255,0.35);
+
+        backdrop-filter:blur(15px);
+
+        border-radius:25px;
+
+        padding:30px;
+
+        box-shadow:
+        0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .table{
+
+        margin-bottom:0;
+    }
+
+    .table thead{
+
+        background:#ff5a1f;
+
+        color:white;
+    }
+
+    .table thead th{
+
+        border:none;
+
+        padding:18px;
+
+        font-size:15px;
+
+        font-weight:600;
+    }
+
+    .table tbody tr{
+
+        transition:0.3s;
+    }
+
+    .table tbody tr:hover{
+
+        background:rgba(255,255,255,0.45);
+    }
+
+    .table tbody td{
+
+        padding:18px;
+
+        vertical-align:middle;
+
+        border-color:rgba(0,0,0,0.05);
+
+        font-size:15px;
+    }
+
+    .category-badge{
+
+        background:#ffe3d7;
+
+        color:#ff5a1f;
+
+        padding:8px 15px;
+
+        border-radius:50px;
+
+        font-size:13px;
+
+        font-weight:600;
+    }
+
+    .amount{
+
+        font-weight:700;
+
+        color:#2d2d2d;
+    }
+
+    /* ACTION BUTTONS */
+
+    .action-buttons{
+
+        display:flex;
+
+        gap:10px;
+    }
+
+    .edit-btn{
+
+        border:none;
+
+        padding:8px 14px;
+
+        border-radius:10px;
+
+        background:#0d6efd;
+
+        color:white;
+
+        text-decoration:none;
+
+        font-size:13px;
+
+        font-weight:500;
+
+        transition:0.3s;
+    }
+
+    .edit-btn:hover{
+
+        background:#0b5ed7;
+
+        color:white;
+    }
+
+    .delete-btn{
+
+        border:none;
+
+        padding:8px 14px;
+
+        border-radius:10px;
+
+        background:#dc3545;
+
+        color:white;
+
+        text-decoration:none;
+
+        font-size:13px;
+
+        font-weight:500;
+
+        transition:0.3s;
+    }
+
+    .delete-btn:hover{
+
+        background:#bb2d3b;
+
+        color:white;
+    }
+
+    /* EMPTY STATE */
+
+    .empty-state{
+
+        text-align:center;
+
+        padding:50px;
+
+        color:#666;
+    }
+
+    .empty-state i{
+
+        font-size:70px;
+
+        color:#ffb59a;
+
+        margin-bottom:20px;
+    }
+
+    /* ALERT */
+
+    .budget-alert{
+
+        background:#ffe5e5;
+
+        color:#dc3545;
+
+        padding:18px 25px;
+
+        border-radius:16px;
+
+        margin-bottom:25px;
+
+        font-weight:600;
+
+        border-left:6px solid #dc3545;
+    }
+
+</style>
+
+<div class="dashboard-wrapper">
+
+    <!-- HEADER -->
+
+    <div class="top-section">
+
+        <div>
+
+            <div class="page-title">
+                My Expenses
+            </div>
+
+            <div class="page-subtitle">
+                Track and manage your personal finance records
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="top-buttons">
+
+            <a href="/expenses/add/" class="add-btn">
+
+                + Add Expense
+
+            </a>
+
+            <a href="/expenses/budget/" class="budget-btn">
+
+                Set Budget
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ALERT -->
+
+    {% if remaining < 0 %}
+
+    <div class="budget-alert">
+
+        ⚠ Budget exceeded by ₹ {{ remaining|floatformat:2 }}
+
+    </div>
+
+    {% endif %}
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+        <!-- TOTAL -->
+
+        <div class="stats-card">
+
+            <div class="stats-title">
+                Total Expenses
+            </div>
+
+            <div class="stats-value">
+                ₹ {{ total }}
+            </div>
+
+        </div>
+
+        <!-- BUDGET -->
+
+        <div class="stats-card">
+
+            <div class="stats-title">
+                Monthly Budget
+            </div>
+
+            <div class="stats-value budget-value">
+
+                ₹ {{ budget }}
+
+            </div>
+
+        </div>
+
+        <!-- REMAINING -->
+
+        <div class="stats-card">
+
+            <div class="stats-title">
+                Remaining Balance
+            </div>
+
+            <div class="stats-value remaining-value">
+
+                ₹ {{ remaining }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for expense in expenses %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            {{ expense.title }}
+                        </strong>
+
+                    </td>
+
+                    <td class="amount">
+
+                        ₹ {{ expense.amount }}
+
+                    </td>
+
+                    <td>
+
+                        <span class="category-badge">
+                            {{ expense.category }}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {{ expense.created_at|date:"d M Y" }}
+
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <a href="/expenses/edit/{{ expense.id }}/"
+                               class="edit-btn">
+
+                                Edit
+
+                            </a>
+
+                            <a href="/expenses/delete/{{ expense.id }}/"
+                               class="delete-btn">
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5">
+
+                        <div class="empty-state">
+
+                            <i class="bi bi-wallet2"></i>
+
+                            <h4>
+                                No expenses added yet
+                            </h4>
+
+                            <p>
+                                Start tracking your expenses now.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
 
 {% endblock %}

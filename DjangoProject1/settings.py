@@ -20,9 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "4o$^48ab8y6l!$)=k6a&!)r(%v=rull=)1zyn$y(cky78et1hs"
+)
 
-DEBUG = os.environ.get("DEBUG") == "True"
+DEBUG = True
 
 
 
@@ -130,14 +133,33 @@ LOGOUT_REDIRECT_URL = '/login/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 ALLOWED_HOSTS = ['*']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+
+        'USER': os.environ.get(
+            'DB_USER',
+            'postgres.puozzecgmmenqeuhxmjr'
+        ),
+
+        'PASSWORD': os.environ.get(
+            'DB_PASSWORD',
+            'Chepuri@123'
+        ),
+
+        'HOST': os.environ.get(
+            'DB_HOST',
+            'aws-1-ap-northeast-1.pooler.supabase.com'
+        ),
+
+        'PORT': os.environ.get(
+            'DB_PORT',
+            '6543'
+        ),
+
         'OPTIONS': {
             'sslmode': 'require',
         },
