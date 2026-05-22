@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+    <h2>My Expenses</h2>
+    <a href="/expenses/add/" class="btn btn-primary">+ Add Expense</a>
+</div>
+
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.title }}</td>
+            <td>₹ {{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+            <td>{{ expense.created_at|date:"d M Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No expenses yet</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="alert alert-success">
+    <strong>Total:</strong> ₹ {{ total }}
+</div>
+
+{% endblock %}
