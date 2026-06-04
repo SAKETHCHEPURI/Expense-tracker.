@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib import messages
 from django.db.models import Sum
 
 from .models import Expense, Budget
@@ -22,7 +23,19 @@ def signup(request):
 
             login(request, user)
 
+            messages.success(
+                request,
+                "Account created successfully!"
+            )
+
             return redirect("expense_list")
+
+        else:
+
+            messages.error(
+                request,
+                "Please correct the errors below."
+            )
 
     else:
 
@@ -57,24 +70,18 @@ def expense_list(request):
     budget = 0
 
     if budget_obj:
-
         budget = budget_obj.monthly_budget
 
     remaining = budget - total
 
     return render(
-
         request,
-
         "expense_list.html",
-
         {
-
             "expenses": expenses,
             "total": total,
             "budget": budget,
             "remaining": remaining,
-
         }
     )
 
@@ -97,19 +104,13 @@ def add_expense(request):
         receipt_url = None
 
         if receipt:
-
             receipt_url = upload_receipt(receipt)
 
         Expense.objects.create(
-
             user=request.user,
-
             title=title,
-
             amount=amount,
-
             category=category,
-
             receipt_url=receipt_url
         )
 
@@ -131,11 +132,9 @@ def set_budget(request):
         amount = request.POST.get("budget")
 
         Budget.objects.update_or_create(
-
             user=request.user,
-
             defaults={
-                'monthly_budget': amount
+                "monthly_budget": amount
             }
         )
 
@@ -144,4 +143,41 @@ def set_budget(request):
     return render(
         request,
         "set_budget.html"
+    )
+def signup(request):
+
+    if request.method == "POST":
+
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+
+            user = form.save()
+
+            login(request, user)
+
+            messages.success(
+                request,
+                "Account created successfully!"
+            )
+
+            return redirect("expense_list")
+
+        else:
+
+            messages.error(
+                request,
+                "Please correct the errors below."
+            )
+
+    else:
+
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "signup.html",
+        {
+            "form": form
+        }
     )

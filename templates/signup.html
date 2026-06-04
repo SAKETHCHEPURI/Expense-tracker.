@@ -1,460 +1,228 @@
-{% extends "base.html" %}
+{% load static %}
 
-{% block navbar %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account</title>
 
-{% block content %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <style>
 
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family:'Poppins', sans-serif;
-    }
-
-    body{
-
-        background:#f7d9c7;
-
-        overflow-x:hidden;
-    }
-
-    /* MAIN WRAPPER */
-
-    .signup-wrapper{
-
-        min-height:100vh;
-
-        display:flex;
-        justify-content:center;
-        align-items:center;
-
-        position:relative;
-
-        overflow:hidden;
-
-        padding:40px 0;
-    }
-
-    /* BACKGROUND BLUR */
-
-    .blur1{
-
-        position:absolute;
-
-        width:350px;
-        height:350px;
-
-        background:#ff9e7a;
-
-        border-radius:50%;
-
-        filter:blur(120px);
-
-        left:-100px;
-        bottom:-80px;
-
-        opacity:0.5;
-    }
-
-    .blur2{
-
-        position:absolute;
-
-        width:250px;
-        height:250px;
-
-        background:#fff0b3;
-
-        border-radius:50%;
-
-        filter:blur(120px);
-
-        top:-80px;
-        right:150px;
-
-        opacity:0.5;
-    }
-
-    /* MAIN CONTAINER */
-
-    .signup-container{
-
-        width:1200px;
-
-        min-height:650px;
-
-        background:rgba(255,255,255,0.18);
-
-        backdrop-filter:blur(15px);
-
-        border-radius:35px;
-
-        display:flex;
-
-        overflow:hidden;
-
-        position:relative;
-
-        z-index:10;
-
-        box-shadow:
-        0 20px 40px rgba(0,0,0,0.15);
-    }
-
-    /* LEFT PANEL */
-
-    .left-panel{
-
-        width:45%;
-
-        display:flex;
-        justify-content:center;
-        align-items:center;
-
-        padding:40px;
-    }
-
-    .signup-card{
-
-        width:100%;
-
-        max-width:420px;
-
-        background:rgba(255,255,255,0.35);
-
-        backdrop-filter:blur(20px);
-
-        border-radius:30px;
-
-        padding:45px 35px;
-
-        box-shadow:
-        0 10px 30px rgba(0,0,0,0.08);
-    }
-
-    .logo{
-
-        color:#ff6b35;
-
-        font-size:18px;
-
-        font-weight:500;
-
-        margin-bottom:5px;
-    }
-
-    .title{
-
-        font-size:55px;
-
-        font-weight:700;
-
-        color:#2d2d2d;
-
-        margin-bottom:35px;
-    }
-
-    .signup-card p{
-
-        margin-bottom:18px;
-    }
-
-    .signup-card label{
-
-        display:block;
-
-        margin-bottom:8px;
-
-        color:#444;
-
-        font-weight:500;
-
-        font-size:15px;
-    }
-
-    .signup-card input{
-
-        width:100%;
-
-        height:55px;
-
-        border:none;
-
-        border-radius:14px;
-
-        background:#ffffffd1;
-
-        padding-left:18px;
-
-        font-size:15px;
-
-        transition:0.3s;
-    }
-
-    .signup-card input:focus{
-
-        outline:none;
-
-        border:2px solid #ff7b42;
-
-        background:white;
-    }
-
-    .helptext{
-
-        display:none;
-    }
-
-    ul{
-
-        display:none;
-    }
-
-    .btn-signup{
-
-        width:100%;
-
-        height:55px;
-
-        border:none;
-
-        border-radius:14px;
-
-        background:#ff5a1f;
-
-        color:white;
-
-        font-size:17px;
-
-        font-weight:600;
-
-        margin-top:15px;
-
-        transition:0.3s;
-    }
-
-    .btn-signup:hover{
-
-        background:#e34d16;
-
-        transform:translateY(-2px);
-
-        box-shadow:
-        0 10px 20px rgba(255,90,31,0.3);
-    }
-
-    .login-link{
-
-        margin-top:28px;
-
-        text-align:center;
-
-        color:#444;
-    }
-
-    .login-link a{
-
-        color:#ff6b35;
-
-        text-decoration:none;
-
-        font-weight:600;
-    }
-
-    .login-link a:hover{
-
-        color:#e34d16;
-    }
-
-    /* RIGHT PANEL */
-
-    .right-panel{
-
-        flex:1;
-
-        display:flex;
-        justify-content:center;
-        align-items:center;
-
-        position:relative;
-    }
-
-    .hero-content{
-
-        text-align:center;
-
-        padding:40px;
-    }
-
-    .hero-image{
-
-        width:350px;
-        height:350px;
-
-        border-radius:50%;
-
-        object-fit:cover;
-
-        border:8px solid rgba(255,255,255,0.35);
-
-        padding:15px;
-
-        background:rgba(255,255,255,0.15);
-
-        box-shadow:
-        0 20px 40px rgba(0,0,0,0.15);
-
-        animation:float 4s ease-in-out infinite;
-    }
-
-    @keyframes float{
-
-        0%{
-            transform:translateY(0px);
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
         }
 
-        50%{
-            transform:translateY(-15px);
-        }
-
-        100%{
-            transform:translateY(0px);
-        }
-    }
-
-    .hero-title{
-
-        margin-top:30px;
-
-        font-size:48px;
-
-        font-weight:700;
-
-        color:#2d2d2d;
-    }
-
-    .hero-subtitle{
-
-        margin-top:18px;
-
-        font-size:18px;
-
-        color:#555;
-
-        line-height:1.9;
-
-        max-width:500px;
-    }
-
-    /* RESPONSIVE */
-
-    @media(max-width:1000px){
-
-        .right-panel{
-            display:none;
-        }
-
-        .left-panel{
-            width:100%;
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(#F7d9c7);
+            padding:20px;
         }
 
         .signup-container{
-
-            width:95%;
-
-            min-height:auto;
+            width:100%;
+            max-width:450px;
         }
 
         .signup-card{
-
-            max-width:100%;
+            background:white;
+            padding:40px;
+            border-radius:24px;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.15);
         }
-    }
 
-</style>
+        .logo{
+            text-align:center;
+            margin-bottom:10px;
+        }
 
-<div class="signup-wrapper">
+        .logo h1{
+            font-size:30px;
+            color:#222;
+            font-weight:700;
+        }
 
-    <!-- BLUR EFFECTS -->
+        .subtitle{
+            text-align:center;
+            color:#777;
+            margin-bottom:30px;
+            font-size:14px;
+        }
 
-    <div class="blur1"></div>
-    <div class="blur2"></div>
+        .form-group{
+            margin-bottom:20px;
+        }
 
-    <!-- MAIN CARD -->
+        .form-group label{
+            display:block;
+            margin-bottom:8px;
+            font-size:14px;
+            color:#444;
+            font-weight:500;
+        }
 
-    <div class="signup-container">
+        #id_username,
+        #id_password1,
+        #id_password2{
+            width:100%;
+            height:55px;
+            border:2px solid #eeeeee;
+            border-radius:14px;
+            padding:0 18px;
+            font-size:15px;
+            transition:.3s;
+            background:#fafafa;
+        }
 
-        <!-- LEFT SIDE -->
+        #id_username:focus,
+        #id_password1:focus,
+        #id_password2:focus{
+            outline:none;
+            border-color: #8e8787;
+            background:white;
+            box-shadow:0 0 0 4px rgba(255,123,66,0.15);
+        }
 
-        <div class="left-panel">
+        .btn-signup{
+            width:100%;
+            height:55px;
+            border:none;
+            border-radius:14px;
+            background:linear-gradient(
+                135deg,
+                #787675,
+                #8c8c86
+            );
+            color:white;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:.3s;
+            margin-top:10px;
+        }
 
-            <div class="signup-card">
+        .btn-signup:hover{
+            transform:translateY(-2px);
+            box-shadow:
+                0 12px 30px rgba(255,123,66,0.35);
+        }
 
-                <div class="logo">
-                    Cloud Expense Tracker
-                </div>
+        .message{
+            background:#fff8e6;
+            color:#9c6b00;
+            padding:14px;
+            border-radius:12px;
+            margin-bottom:18px;
+            border-left:4px solid #ffc107;
+        }
 
-                <h1 class="title">
-                    Signup
-                </h1>
+        .error-box{
+            background:#ffe8e8;
+            color: #a39999;
+            padding:14px;
+            border-radius:12px;
+            margin-bottom:18px;
+            border-left:4px solid #716a6a;
+        }
 
-                <form method="post">
+        .footer-text{
+            text-align:center;
+            margin-top:25px;
+            color:#777;
+            font-size:14px;
+        }
 
-                    {% csrf_token %}
+        .footer-text a{
+            color: #a59e9c;
+            text-decoration:none;
+            font-weight:600;
+        }
 
-                    {{ form.as_p }}
+        .footer-text a:hover{
+            text-decoration:underline;
+        }
 
-                    <button class="btn-signup">
-                        Create Account
-                    </button>
+        @media(max-width:500px){
 
-                </form>
+            .signup-card{
+                padding:30px 24px;
+            }
 
-                <div class="login-link">
+            .logo h1{
+                font-size:26px;
+            }
+        }
 
-                    Already have an account?
+    </style>
+</head>
+<body>
 
-                    <a href="/login/">
-                        Login
-                    </a>
+<div class="signup-container">
 
-                </div>
+    <div class="signup-card">
 
-            </div>
-
+        <div class="logo">
+            <h1>Create Account</h1>
         </div>
 
-        <!-- RIGHT SIDE -->
+        <div class="subtitle">
+            Join us and start your journey today
+        </div>
 
-        <div class="right-panel">
+        <form method="post">
 
-            <div class="hero-content">
+            {% csrf_token %}
 
-                <img src="https://file.aiquickdraw.com/imgcompressed/img/compressed_cd02f18fc4435dfa45ecedc672ebc296.webp"
-                     class="hero-image">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-                <h2 class="hero-title">
-                    Join Expense Tracker
-                </h2>
+            {% if form.errors %}
+                <div class="error-box">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
 
-                <p class="hero-subtitle">
-
-                    Create your secure account and start managing
-                    expenses, receipts, and cloud finance records
-                    beautifully and efficiently using our modern
-                    cloud-powered finance platform.
-
-                </p>
-
+            <div class="form-group">
+                <label>Username</label>
+                {{ form.username }}
             </div>
 
+            <div class="form-group">
+                <label>Password</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="btn-signup">
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="footer-text">
+            Already have an account?
+            <a href="{% url 'login' %}">Sign In</a>
         </div>
 
     </div>
 
 </div>
 
-{% endblock %}
+</body>
+</html>

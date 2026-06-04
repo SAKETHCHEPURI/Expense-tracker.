@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Cloud Expense Tracker</title>
+    <title>Expense Tracker</title>
 
     <!-- Bootstrap -->
 
@@ -183,6 +183,30 @@
                 font-size:14px;
             }
         }
+        .dark-mode{
+
+    background:#121212 !important;
+
+    color:white !important;
+}
+
+.dark-mode .custom-navbar{
+
+    background:#1e1e1e !important;
+
+    border-bottom:none;
+}
+
+.dark-mode .logo-text,
+.dark-mode .welcome-text{
+
+    color:white !important;
+}
+
+.dark-mode .main-content{
+
+    background:#121212 !important;
+}
 
     </style>
 
@@ -205,7 +229,7 @@
         </div>
 
         <div class="logo-text">
-            CloudExpense
+            Expense Tracker
         </div>
 
     </a>
@@ -223,9 +247,18 @@
 
         </div>
 
-        <form method="post"
-              action="/logout/"
-              style="margin:0;">
+        <button id="themeToggle"
+        type="button"
+        style="
+        border:none;
+        background:#750e0e;
+        color:white;
+        padding:10px 18px;
+        border-radius:12px;
+        cursor:pointer;
+        font-size:18px;">
+    🌙
+</button>
 
             {% csrf_token %}
 
@@ -255,6 +288,36 @@
     {% endblock %}
 
 </div>
+<script>
 
+const toggleBtn = document.getElementById("themeToggle");
+
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    toggleBtn.innerHTML = "☀️";
+}
+
+toggleBtn.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        localStorage.setItem("theme","dark");
+
+        toggleBtn.innerHTML = "☀️";
+    }
+    else{
+
+        localStorage.setItem("theme","light");
+
+        toggleBtn.innerHTML = "🌙";
+    }
+
+});
+
+</script>
 </body>
 </html>
