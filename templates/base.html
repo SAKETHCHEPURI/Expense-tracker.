@@ -260,17 +260,22 @@
     🌙
 </button>
 
-            {% csrf_token %}
+<form method="post"
+      action="{% url 'logout' %}"
+      style="margin:0;">
 
-            <button class="logout-btn">
+    {% csrf_token %}
 
-                <i class="bi bi-box-arrow-right"></i>
+    <button type="submit" class="logout-btn">
 
-                Logout
+        <i class="bi bi-box-arrow-right"></i>
 
-            </button>
+        Logout
 
-        </form>
+    </button>
+
+</form>
+
 
     </div>
 
